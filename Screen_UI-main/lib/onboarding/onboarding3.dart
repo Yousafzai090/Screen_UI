@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:screen_ui/components/last_row.dart';
 import 'package:screen_ui/screens/login_screen.dart';
 // import 'package:screen_ui/screens/login_screen.dart';
 
@@ -59,42 +60,15 @@ class OnBoarding3 extends StatelessWidget {
             height: 34,
           ),
 
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
-                child:
-                 Image(
-                  image: AssetImage('assets/Dots 3.png'),
-                  ),
-              ),
-
-              Spacer(),
-
-              Padding(
-                padding: EdgeInsetsGeometry.symmetric(horizontal: 45),
-                child: Container(
-                  height: 50,
-                  width:  50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: Color(0xff000000),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder:
-                        (context) => LogInScreen(), 
-                        ),
-                        );
-                    },
-                    child: Icon(Icons.arrow_forward_ios, color: Colors.white,),
-                  ),
-                ),
-                ),
-            ],
+          LastRow(
+            tap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LogInScreen(),
+                    ),
+                  );
+                },
           ),
         ],
       ),

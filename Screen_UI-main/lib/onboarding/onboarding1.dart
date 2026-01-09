@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:screen_ui/components/last_row.dart';
 import 'package:screen_ui/components/custom_text.dart';
 
+
 class OnBoarding1 extends StatelessWidget {
   const OnBoarding1({super.key});
 
