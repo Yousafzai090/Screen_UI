@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:screen_ui/onboarding/onboarding2.dart';
 class LastRow extends StatelessWidget {
+  final VoidCallback? tap;
+
   const LastRow({
     super.key,
+    this.tap,
   });
 
   @override
@@ -27,7 +30,7 @@ class LastRow extends StatelessWidget {
               ),
       
               child: InkWell(
-                onTap: () {
+                onTap: tap?? () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(

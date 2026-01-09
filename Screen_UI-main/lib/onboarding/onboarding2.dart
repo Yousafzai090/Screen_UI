@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:screen_ui/onboarding/onboarding3.dart';
+import 'package:screen_ui/components/last_row.dart';
+
 import 'package:screen_ui/components/custom_text.dart';
+import 'package:screen_ui/onboarding/onboarding3.dart';
 
 class OnBoarding2 extends StatelessWidget {
   const OnBoarding2({super.key});
@@ -52,42 +54,15 @@ class OnBoarding2 extends StatelessWidget {
 
           SizedBox(height: 34),
 
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                child: Image(
-                  height: 6,
-                  width: 48,
-                  image: AssetImage('assets/Dots 2.png'),
-                ),
-              ),
-
-              Spacer(),
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 45.0),
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Color(0xff000000),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => OnBoarding3()),
-                      );
-                    },
-                    child: Icon(Icons.arrow_forward_ios, color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
+          LastRow(
+            tap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => OnBoarding3(),
+                    ),
+                  );
+                },
           ),
         ],
       ),
