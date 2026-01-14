@@ -119,6 +119,27 @@ class _VerifyState extends State<VerificationScreen> {
               SizedBox(height: 61),
 
               Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => LogInScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffFF3951),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                    ),
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 252, 252, 254)
+                      ),
+                      ),
+                  ),
+                ),
+                SizedBox(height: 5),
+
+              Center(
                 child: CustomContainer(
                   height: 50,
                   width: 300,

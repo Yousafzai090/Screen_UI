@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:screen_ui/screens/splash_screen.dart';
 
+
 void main(){
   runApp(MyApp());
 
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget { 
   const MyApp({super.key});
 
   @override

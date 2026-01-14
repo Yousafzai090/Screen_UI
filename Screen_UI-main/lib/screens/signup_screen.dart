@@ -70,7 +70,7 @@ class SignupScreen extends State<SignUpScreen> {
 
               CustomTextFormField(
                 hintText: 'Full Name',
-                suffixIcon: Icon(
+                suffixicon: Icon(
                   Icons.account_circle_outlined,
                   color: Color(0xff848081),
                 ),
@@ -83,7 +83,7 @@ class SignupScreen extends State<SignUpScreen> {
 
               CustomTextFormField(
                 hintText: 'Valid Email',
-                suffixIcon: Icon(
+                suffixicon: Icon(
                   Icons.email_outlined,
                   color: Color(0xff848081),
                 ),
@@ -97,7 +97,7 @@ class SignupScreen extends State<SignUpScreen> {
 
               CustomTextFormField(
                 hintText: 'Phone Number',
-                suffixIcon: Icon(
+                suffixicon: Icon(
                   Icons.phone_iphone_outlined,
                   color: Color(0xff848081),
                 ),
@@ -110,9 +110,12 @@ class SignupScreen extends State<SignUpScreen> {
               SizedBox(height: 10),
               CustomTextFormField(
                 hintText: 'Strong Password',
-                suffixIcon: Icon(
-                  Icons.visibility_off_outlined,
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.lock_outline),
                   color: Color(0xff848081),
+                  onPressed: () {
+                    
+                  },
                 ),
                 styleHint: TextStyle(
                   fontFamily: 'Mulish Light',
@@ -165,6 +168,26 @@ class SignupScreen extends State<SignUpScreen> {
                   ],
                 ),
               ),
+
+              Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => VerificationScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xffFF3951),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+                    ),
+                    child: Text(
+                      'Next',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 252, 252, 254)
+                      ),
+                      ),
+                  ),
+                ),
               Spacer(),
 
               Center(

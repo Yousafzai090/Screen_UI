@@ -1,9 +1,13 @@
+// import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:screen_ui/components/custom_container.dart';
+// import 'package:flutter/services.dart';
+// import 'package:screen_ui/components/custom_container.dart';
 import 'package:screen_ui/components/custom_text.dart';
 import 'package:screen_ui/components/custom_text_form_field.dart';
 import 'package:screen_ui/screens/signup_screen.dart';
-import 'package:screen_ui/screens/welcome_screen.dart';
+// import 'package:screen_ui/screens/welcome_screen.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key});
@@ -13,7 +17,32 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreen extends State<LogInScreen> {
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _passwordVisible = true;
   bool? _isSelected = false;
+  // bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordVisible = false;
+  }
+
+  // void showTopSnackBar(BuildContext context, String message) {
+  //   final snackBar = SnackBar(
+  //     content: Text(message),
+  //     behavior: SnackBarBehavior.floating,
+  //     margin: EdgeInsets.only(
+  //       bottom: MediaQuery.of(context).size.height - 150,
+  //       right: 20,
+  //       left: 20,
+  //     ),
+  //   );
+
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -68,25 +97,81 @@ class _LogInScreen extends State<LogInScreen> {
                 ),
 
                 SizedBox(height: 20),
+                Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      CustomTextFormField(
+                        controller: _emailController,
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Email Required'),
+                          EmailValidator(
+                            errorText: 'Please enter a valid Email Address',
+                          ),
+                          PatternValidator(
+                            r'.com',
+                            errorText: '.com is required',
+                          ),
+                        ]).call,
 
-                CustomTextFormField(
-                  styleHint: TextStyle(
-                    fontFamily: 'Mulish Light',
-                    color: Color(0xffaaaaaa),
+                        styleHint: TextStyle(
+                          fontFamily: 'Mulish Light',
+                          color: Color(0xffaaaaaa),
+                        ),
+                      ),
+
+                      SizedBox(height: 12),
+
+                      CustomTextFormField(
+                        obsecureText: !_passwordVisible,
+                        controller: _passwordController,
+                        autoValidateMode: AutovalidateMode.onUserInteraction,
+                        // inputFormatter: <TextInputFormatter> [
+                        //   FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                        // ],
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: 'Password Required'),
+                          MinLengthValidator(
+                            8,
+                            errorText: "Password must be at least 8 Characters",
+                          ),
+                          MaxLengthValidator(
+                            20,
+                            errorText: "Password can't Exceed 20 Characters",
+                          ),
+                          PatternValidator(
+                            r'(?=.*?[#?!@$%^&*-])',
+                            errorText:
+                                "Password must have atleast one special character",
+                          ),
+                          PatternValidator(
+                            r'[0-9]',
+                            errorText: 'Enter atleast 1 digit',
+                          ),
+                        ]).call,
+                        // scaffoldMessenger: ScaffoldMessenger.of(context),
+                        hintText: 'Password',
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                        ),
+                        styleHint: TextStyle(
+                          fontFamily: 'Mulish Light',
+                          color: Color(0xffaaaaaa),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-
-                SizedBox(height: 12),
-
-                CustomTextFormField(
-                  hintText: 'Password',
-                  suffixIcon: Icon(Icons.visibility_off_outlined),
-                  styleHint: TextStyle(
-                    fontFamily: 'Mulish Light',
-                    color: Color(0xffaaaaaa),
-                  ),
-                ),
-
                 SizedBox(height: 10),
 
                 Row(
@@ -131,28 +216,89 @@ class _LogInScreen extends State<LogInScreen> {
 
                 SizedBox(height: 170),
 
-                //Spacer(),
                 Center(
-                  child: CustomContainer(
-                    height: 50,
-                    width: 300,
-                    tap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => WelcomeScreen(),
-                        ),
-                      );
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formkey.currentState?.validate() ?? false) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.white,
+                            content: Text(
+                              'Validation Succesfull',
+                              style: TextStyle(color: Color(0xff000000)),
+                            ),
+                            dismissDirection: DismissDirection.none,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height - 100,
+                              left: 20,
+                              right: 20,
+                            ),
+                          ),
+                        );
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SignUpScreen(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Color(0xffFF3951),
+                            content: Text('Validation Failed. Check errors.'),
+                            dismissDirection: DismissDirection.up,
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height - 100,
+                              left: 16,
+                              right: 16,
+                            ),
+                          ),
+                        );
+                      }
                     },
-                    text: 'Next',
-                    styleText: TextStyle(
-                      fontSize: 20,
-                      fontFamily: 'Mulish Semi Bold',
-                      color: Colors.white,
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: Size(300, 50),
+                      backgroundColor: Color(0xffFF3951),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    
+                    child: Center(
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 252, 252, 254),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
+
+                SizedBox(height: 10),
+
+                //Spacer(),
+                // Center(
+                //   child: CustomContainer(
+                //     height: 50,
+                //     width: 300,
+                //     tap: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (context) => WelcomeScreen(),
+                //         ),
+                //       );
+                //     },
+                //     text: 'Next',
+                //     styleText: TextStyle(
+                //       fontSize: 20,
+                //       fontFamily: 'Mulish Semi Bold',
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 10),
 
                 Row(
